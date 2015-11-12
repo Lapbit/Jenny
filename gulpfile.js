@@ -14,14 +14,14 @@ var gulp = require('gulp'),
 
 //CSS
 gulp.task('sass', function() {
-	return gulp.src('src/style/scss/*.scss')
+	return gulp.src('public/style/scss/*.scss')
 		.pipe(sass({errLogToConsole: true}))
 		.pipe(autoprefixer({browsers:['last 2 versions', 'safari 5', 'opera 12.1', 'ios 6', 'android 4']}))
-		.pipe(gulp.dest('src/style/css'));
+		.pipe(gulp.dest('public/style/css'));
 		// .pipe(notify({message: 'sass is compiled'}));
 });
 gulp.task('mincss', ['sass'], function() {
-	return gulp.src('src/style/css/*.css')
+	return gulp.src('public/style/css/*.css')
     	.pipe(rename({suffix:'.min'}))
 		.pipe(minifyCss())
     	.pipe(gulp.dest('build'))
@@ -29,11 +29,11 @@ gulp.task('mincss', ['sass'], function() {
 });
 //JS
 gulp.task('minjs', function() {
-	return gulp.src('src/js/*.js')
+	return gulp.src('public/js/*.js')
 		.pipe(jshint())
 		.pipe(jshint.reporter('default'))
 		.pipe(concat('all.js'))
-		.pipe(gulp.dest('src/js'))
+		.pipe(gulp.dest('public/js'))
 		.pipe(rename({
 			suffix: '.min'
 		}))
@@ -64,15 +64,14 @@ gulp.task('serve', function() {
 });
 //reload
 gulp.task('html', function () {
- 	gulp.src(['*.html', 'templates/*.html'])
+ 	gulp.src(['webapp/views/*.html'])
 		.pipe(connect.reload());
 });
 // watch
 gulp.task('watch', function() {
 	return gulp.watch([
-		'src/style/scss/*.scss',
-		'*.html',
-		'templates/*.html'
+		'public/style/scss/*.scss',
+		'webapp/views/*.html'
 		], ['sass', 'html']);
 });
 // 生成发布版本，图片还没有压缩
